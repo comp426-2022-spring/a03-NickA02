@@ -1,9 +1,11 @@
 const express = require('express')
 const app = express()
-const HTTP_PORT = 3000
+const argv = require('minimist')(process.argv.slice(2))
+
+const HTTP_PORT = argv.port || process.env.PORT || 3000
 
 const server = app.listen(HTTP_PORT, () => {
-    console.log('App lstening on port %PORT%'.replace('%PORT%',HTTP_PORT))
+    console.log('App lstening on port %PORT'.replace('%PORT',HTTP_PORT))
 });
 
 app.get('/app/', (req, res) => {
@@ -20,7 +22,7 @@ app.get('/app/flips/:number', (req, res) => {
     for (var i = 0; i < number; i++) {
         flips.push(coinFlip())
     }
-    
+
     //if (flips.length == 1) console.log(`{ ${flips.pop()}: 1 }`)
     res.json({raw: flips, summary:countFlips(flips)})
 });
